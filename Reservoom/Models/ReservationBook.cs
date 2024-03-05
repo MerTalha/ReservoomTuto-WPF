@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Reservoom.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,7 +27,7 @@ namespace Reservoom.Models
             {
                 if (existingReservation.Conflicts(reservation))
                 {
-                    throw new Exception(ReservationConflictException());
+                    throw new ReservationConflictException(existingReservation, reservation);
                 }
             }
             _reservations.Add(reservation);

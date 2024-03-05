@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 
 namespace Reservoom.Models
 {
@@ -17,9 +18,18 @@ namespace Reservoom.Models
         public Reservation(RoomID roomID, string username, DateTime startTime, DateTime endTime)
         {
             RoomID = roomID;
-            UserName = username;
+            Username = username;
             StartTime = startTime;
             EndTime = endTime;
+        }
+
+        public bool Conflicts(Reservation reservation)
+        {
+            if (reservation.RoomID != RoomID) {
+                return false;
+            }
+
+            return reservation.StartTime < EndTime && reservation.EndTime > StartTime;
         }
 
     }
