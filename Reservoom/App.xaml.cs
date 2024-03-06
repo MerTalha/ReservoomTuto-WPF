@@ -35,7 +35,7 @@ namespace Reservoom
 
             
 
-            IEnumerable<Reservation> reservations = hotel.GetReservationForUser("HotelUser");
+            IEnumerable<Reservation> reservations = hotel.GetAllReservations();
 
             base.OnStartup(e);
         }
