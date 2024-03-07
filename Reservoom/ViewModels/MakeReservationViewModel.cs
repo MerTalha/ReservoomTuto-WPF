@@ -54,7 +54,7 @@ namespace Reservoom.ViewModels
 			}
 		}
 
-		private DateTime _startDate;
+		private DateTime _startDate = new DateTime(2023, 1, 1);
 		public DateTime StartDate
         {
 			get
@@ -68,7 +68,7 @@ namespace Reservoom.ViewModels
 			}
 		}
 
-        private DateTime _endDate;
+        private DateTime _endDate = new DateTime(2023, 1, 2);
         public DateTime EndDate
         {
             get
@@ -77,7 +77,7 @@ namespace Reservoom.ViewModels
             }
             set
             {
-                _startDate = value;
+                _endDate = value;
                 OnPropertyChanged(nameof(EndDate));
             }
         }
@@ -89,6 +89,7 @@ namespace Reservoom.ViewModels
         public MakeReservationViewModel(Hotel hotel)
         {
 			SubmitCommand = new MakeReservationCommand(this, hotel);
+			//CancelCommand = new CancelMakeReservationCommand(this, hotel); Cancel classı oluşturulursa bakılacak
         }
 
     }

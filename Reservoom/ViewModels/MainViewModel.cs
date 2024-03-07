@@ -13,7 +13,7 @@ namespace Reservoom.ViewModels
 
         public MainViewModel(Hotel hotel)
         {
-            CurrentViewModel = new MakeReservationViewModel(hotel);
+            CurrentViewModel = new ReservationListingViewModel();
         }
     }
 }
