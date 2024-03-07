@@ -1,4 +1,5 @@
 ﻿using Reservoom.Models;
+using Reservoom.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -16,26 +17,11 @@ namespace Reservoom
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            Hotel hotel = new Hotel("Hotel Suite");
-            try
+            MainWindow = new MainWindow()
             {
-                hotel.MakeReservation(new Reservation(
-                    new RoomID(1, 3),
-                    "HotelSuits",
-                    new DateTime(2000, 1, 1),
-                    new DateTime(2000, 1, 3)));
-
-                hotel.MakeReservation(new Reservation(
-                    new RoomID(1, 2),
-                    "HotelSuits",
-                    new DateTime(2000, 1, 5),
-                    new DateTime(2000, 1, 7)));
-
-            }catch (Exception ex) { }
-
-            
-
-            IEnumerable<Reservation> reservations = hotel.GetAllReservations();
+                DataContext = new MainViewModel()
+            };
+            MainWindow.Show();
 
             base.OnStartup(e);
         }
