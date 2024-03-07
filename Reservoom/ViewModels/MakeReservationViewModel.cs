@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Reservoom.Commands;
+using Reservoom.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -44,7 +46,7 @@ namespace Reservoom.ViewModels
 			get
 			{
 				return _floorNumber;
-			}
+			} 
 			set
 			{
                 _floorNumber = value;
@@ -84,9 +86,9 @@ namespace Reservoom.ViewModels
 
         public ICommand CancelCommand { get; }
 
-        public MakeReservationViewModel()
+        public MakeReservationViewModel(Hotel hotel)
         {
-            
+			SubmitCommand = new MakeReservationCommand(this, hotel);
         }
 
     }

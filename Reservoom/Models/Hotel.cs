@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Reservoom.Models
 {
-    internal class Hotel
+    public class Hotel
     {
         private readonly ReservationBook _reservationBook;
 
