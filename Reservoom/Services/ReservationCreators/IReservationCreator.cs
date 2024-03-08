@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Reservoom.Services.ReservationProviders
+namespace Reservoom.Services.ReservationCreators
 {
-    public interface IReservationProvider
+    public interface IReservationCreator
     {
-        Task<IEnumerable<Reservation>> GetAllReservations();
+        Task CreatReservation(Reservation reservation);
     }
 }
