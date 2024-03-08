@@ -1,4 +1,7 @@
 ﻿using Reservoom.Commands;
+using Reservoom.Models;
+using Reservoom.Services;
+using Reservoom.Stores;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,22 +16,32 @@ namespace Reservoom.ViewModels
     {
 
         private readonly ObservableCollection<ReservationViewModel> _reservations;
+        private readonly Hotel _hotel;
 
         public IEnumerable<ReservationViewModel> Reservations => _reservations;
 
         public ICommand MakeReservationCommand { get; }
 
-        public ReservationListingViewModel()
+        public ReservationListingViewModel(Hotel hotel, NavigationService makeReservationNavigationService)
         {
+            _hotel = hotel;
             _reservations = new ObservableCollection<ReservationViewModel>();
 
-            MakeReservationCommand = new NavigateCommand();
+            MakeReservationCommand = new NavigateCommand(makeReservationNavigationService);
 
-            _reservations.Add(new ReservationViewModel(new Models.Reservation(new Models.RoomID(1,2), "Mert", DateTime.Now, DateTime.Now)));
-            _reservations.Add(new ReservationViewModel(new Models.Reservation(new Models.RoomID(1, 2), "Mert", DateTime.Now, DateTime.Now)));
-            _reservations.Add(new ReservationViewModel(new Models.Reservation(new Models.RoomID(1, 2), "Mert", DateTime.Now, DateTime.Now)));
-            _reservations.Add(new ReservationViewModel(new Models.Reservation(new Models.RoomID(1, 2), "Mert", DateTime.Now, DateTime.Now)));
+            UpdateReservation();
 
+        }
+
+        private void UpdateReservation()
+        {
+            _reservations.Clear();
+
+            foreach (Reservation reservation in _hotel.GetAllReservations())
+            {
+                ReservationViewModel reservationViewModel = new ReservationViewModel(reservation);
+                _reservations.Add(reservationViewModel);
+            }
         }
     }
 }
