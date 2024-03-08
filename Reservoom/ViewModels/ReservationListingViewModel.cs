@@ -40,7 +40,7 @@ namespace Reservoom.ViewModels
             foreach (Reservation reservation in _hotel.GetAllReservations())
             {
                 ReservationViewModel reservationViewModel = new ReservationViewModel(reservation);
-                _reservations.Add(reservationViewModel);
+                _reservations.Add(reservationViewModel); 
             }
         }
     }
