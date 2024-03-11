@@ -1,4 +1,5 @@
 ﻿using Reservoom.Models;
+using Reservoom.Stores;
 using Reservoom.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -12,12 +13,12 @@ namespace Reservoom.Commands
     public class LoadReservationsCommand : AsyncCommandBase
     {
         private readonly ReservationListingViewModel _viewModel;
-        private readonly Hotel _hotel;
+        private readonly HotelStore _hotelStore;
 
-        public LoadReservationsCommand(ReservationListingViewModel viewModel, Hotel hotel)
+        public LoadReservationsCommand(ReservationListingViewModel viewModel, HotelStore hotelStore)
         {
             _viewModel = viewModel;
-            _hotel = hotel;
+            _hotelStore = hotelStore;
         }
 
         public override async Task ExecuteAsync(object parameter)
@@ -25,9 +26,10 @@ namespace Reservoom.Commands
 
             try
             {
-                IEnumerable<Reservation> reservations = await _hotel.GetAllReservations();
 
-                _viewModel.UpdateReservation(reservations);
+                await _hotelStore.Load();
+
+                _viewModel.UpdateReservation(_hotelStore.Reservations);
             }
             catch (Exception)
             {

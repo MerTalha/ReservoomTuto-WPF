@@ -16,24 +16,42 @@ namespace Reservoom.ViewModels
     {
 
         private readonly ObservableCollection<ReservationViewModel> _reservations;
+        private HotelStore _hotelStore;
 
         public IEnumerable<ReservationViewModel> Reservations => _reservations;
+
+        public MakeReservationViewModel MakeReservationViewModel { get;}
 
         public ICommand LoadReservationsCommand { get;}
         public ICommand MakeReservationCommand { get; }
 
-        public ReservationListingViewModel(Hotel hotel, NavigationService makeReservationNavigationService)
+        public ReservationListingViewModel(HotelStore hotelStore, MakeReservationViewModel makeReservationViewModel, NavigationService makeReservationNavigationService)
         {
+            _hotelStore = hotelStore;
             _reservations = new ObservableCollection<ReservationViewModel>();
+            MakeReservationViewModel = makeReservationViewModel;
 
-            LoadReservationsCommand = new LoadReservationsCommand(this, hotel);
+            LoadReservationsCommand = new LoadReservationsCommand(this, hotelStore);
             MakeReservationCommand = new NavigateCommand(makeReservationNavigationService);
 
+            _hotelStore.ReservationMade += OnReservationMode;
         }
 
-        public static ReservationListingViewModel LoadViewModel(Hotel hotel, NavigationService makeReservationNavigationService)
+        public override void Dispose()
         {
-            ReservationListingViewModel viewModel = new ReservationListingViewModel(hotel, makeReservationNavigationService);
+            _hotelStore.ReservationMade -= OnReservationMode;
+            base.Dispose();
+        }
+
+        private void OnReservationMode(Reservation reservation)
+        {
+            ReservationViewModel reservationViewModel = new ReservationViewModel(reservation);
+            _reservations.Add(reservationViewModel);
+        }
+
+        public static ReservationListingViewModel LoadViewModel(HotelStore hotelStore, MakeReservationViewModel  makeReservationViewModel, NavigationService makeReservationNavigationService)
+        {
+            ReservationListingViewModel viewModel = new ReservationListingViewModel(hotelStore, makeReservationViewModel, makeReservationNavigationService);
 
             viewModel.LoadReservationsCommand.Execute(null);
 
